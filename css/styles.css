@@ -82,11 +82,38 @@ button {
   padding: 20px;
 }
 
-.logo {
+.auth-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+}
+
+.auth-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.auth-header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.logo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .logo i {
@@ -98,6 +125,12 @@ button {
 .logo h1 {
   font-size: 24px;
   font-weight: 700;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .auth-form {
@@ -259,6 +292,18 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.wallet-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.wallet-actions {
+  display: flex;
+  gap: 15px;
 }
 
 .wallet-dropdown,
@@ -290,6 +335,30 @@ input:checked + .slider:before {
 .network-icon i {
   color: white;
   font-size: 12px;
+}
+
+/* Search Bar */
+.search-bar {
+  margin: 15px;
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  background-color: var(--card-color);
+  border: none;
+  border-radius: 20px;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.search-bar i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
 }
 
 /* Wallet Address */
@@ -434,70 +503,9 @@ input:checked + .slider:before {
   margin-bottom: 15px;
 }
 
-.token-actions-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  justify-content: center;
-}
-
-.token-action-btn {
+.token-actions {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1rem;
-  border-radius: 12px;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  text-align: center;
-  text-decoration: none;
-  color: #9f79ad;
-  transition: all 0.2s ease-in-out;
-  min-height: 120px;
-}
-
-.token-action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
-  border-color: #ced4da;
-}
-
-.token-action-btn i {
-  font-size: 1.75rem;
-  margin-bottom: 0.75rem;
-  color: #4a6cf7;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.token-action-btn span {
-  font-size: 0.95rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.fund-token-btn {
-  background-color: #4a6cf715;
-  border-color: #4a6cf730;
-}
-
-.fund-token-btn:hover {
-  background-color: #4a6cf720;
-}
-
-.fund-token-btn i {
-  color: #4a6cf7;
-}
-  
-  .token-action-btn {
-    min-height: 100px;
-    padding: 1rem;
-  }
+  gap: 10px;
 }
 
 .menu-btn,
@@ -533,6 +541,10 @@ input:checked + .slider:before {
   border-radius: 50%;
   overflow: hidden;
   margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
 }
 
 .token-icon img {
@@ -547,6 +559,11 @@ input:checked + .slider:before {
 
 .token-name {
   font-weight: 600;
+}
+
+.token-subtitle {
+  color: var(--text-secondary);
+  font-size: 12px;
 }
 
 .token-balance {
@@ -1178,28 +1195,43 @@ input:checked + .slider:before {
   font-family: monospace;
 }
 
-/* Token Actions */
+.modal-body {
+  padding: 1rem; /* Reduced padding */
+}
+
 .token-actions-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Reduced minimum size */
+  gap: 0.75rem; /* Smaller gap */
 }
 
 .token-action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background-color: var(--card-color);
-  border-radius: var(--border-radius);
-  width: 45%;
-  text-align: center;
+  padding: 1rem 0.5rem; /* More compact padding */
+  min-height: 100px; /* Reduced height */
 }
 
 .token-action-btn i {
-  font-size: 24px;
-  color: var(--primary-color);
+  font-size: 1.5rem; /* Smaller icon */
+  margin-bottom: 0.5rem; /* Reduced spacing */
+  width: 32px; /* Smaller icon container */
+  height: 32px;
+}
+
+.token-action-btn span {
+  font-size: 0.875rem; /* Smaller text */
+  line-height: 1.3; /* Tighter line height */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .token-actions-container {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Smaller columns for mobile */
+  }
+  
+  .token-action-btn {
+    min-height: 90px; /* Even more compact on mobile */
+    padding: 0.75rem;
+  }
 }
 
 .token-item {
@@ -1209,5 +1241,328 @@ input:checked + .slider:before {
 
 .token-item:hover {
   transform: translateY(-2px);
+}
+
+/* New Dashboard Styles */
+.dashboard-header {
+  background-color: #121212;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.dashboard-search {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin: 10px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-search i {
+  color: rgba(255, 255, 255, 0.5);
+  margin-right: 10px;
+}
+
+.dashboard-search input {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 100%;
+}
+
+.dashboard-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.wallet-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #121212;
+  color: white;
+}
+
+.wallet-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wallet-balance {
+  font-size: 32px;
+  font-weight: 700;
+  padding: 15px;
+  color: white;
+  background-color: #121212;
+}
+
+.action-circles {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 15px;
+  background-color: #121212;
+}
+
+.action-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.circle-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.circle-label {
+  font-size: 12px;
+  color: white;
+}
+
+.promo-banner {
+  margin: 10px 15px;
+  padding: 15px;
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.promo-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.promo-content {
+  flex: 1;
+}
+
+.promo-title {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.promo-action {
+  color: #4caf50;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.crypto-tabs {
+  display: flex;
+  padding: 0 15px;
+  border-bottom: 1px solid #2a2a2a;
+  background-color: #121212;
+}
+
+.crypto-tab {
+  padding: 15px;
+  color: #a0a0a0;
+  position: relative;
+  font-weight: 500;
+}
+
+.crypto-tab.active {
+  color: white;
+}
+
+.crypto-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4caf50;
+}
+
+.crypto-list {
+  background-color: #121212;
+  padding: 0 15px;
+}
+
+.crypto-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.crypto-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.crypto-info {
+  flex: 1;
+}
+
+.crypto-name {
+  font-weight: 600;
+  color: white;
+}
+
+.crypto-network {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.crypto-price {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.crypto-change {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.crypto-change.positive {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.crypto-change.negative {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+.crypto-amount {
+  text-align: right;
+}
+
+.crypto-balance {
+  font-weight: 600;
+  color: white;
+}
+
+.crypto-value {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+/* Admin User List Improvements */
+.user-item {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.user-email,
+.user-balance {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.user-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.status-active {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: var(--success-color);
+}
+
+.status-inactive {
+  background-color: rgba(255, 59, 48, 0.1);
+  color: var(--error-color);
+}
+
+.user-wallets {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-wallets div {
+  margin-bottom: 3px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: flex-end;
+}
+
+.user-action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--input-bg);
+  border-radius: 50%;
+  color: var(--text-secondary);
+}
+
+.user-action-btn.edit {
+  color: var(--primary-color);
+}
+
+.user-action-btn.delete {
+  color: var(--error-color);
+}
+
+.user-action-btn:hover {
+  transform: scale(1.05);
 }
 
