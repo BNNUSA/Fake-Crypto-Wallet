@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Wallet - Dashboard</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="app-container">
+  <div class="wallet-header">
+    <div class="wallet-dropdown">
+      <span id="walletName">My wallet</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="network-dropdown">
+      <div class="network-icon">
+        <i class="fas fa-sun"></i>
+      </div>
+      <span id="networkName">Tron</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </div>
+
+  <div class="wallet-addresses">
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">Main Address:</div>
+      <div class="wallet-address-value" id="mainWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="main">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">TRX Address:</div>
+      <div class="wallet-address-value" id="trxWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="trx">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">USDT Address:</div>
+      <div class="wallet-address-value" id="usdtWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="usdt">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">USDC Address:</div>
+      <div class="wallet-address-value" id="usdcWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="usdc">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="balance-container">
+    <div class="balance-amount">
+      <span id="balanceAmount">$0.00</span>
+      <button class="visibility-btn" id="toggleBalanceBtn">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+    <button class="backup-btn" id="backupBtn">
+      <i class="fas fa-shield-alt"></i>
+      Back up
+    </button>
+  </div>
+
+  <div class="action-buttons">
+    <a href="send.html" class="action-btn">
+      <i class="fas fa-arrow-up"></i>
+      <span>Send</span>
+    </a>
+    <a href="receive.html" class="action-btn">
+      <i class="fas fa-arrow-down"></i>
+      <span>Receive</span>
+    </a>
+    <a href="fund-token.html" class="action-btn">
+      <i class="fas fa-wallet"></i>
+      <span>Fund Token</span>
+    </a>
+    <a href="#" class="action-btn" id="earnBtn">
+      <i class="fas fa-chart-line"></i>
+      <span>Earn</span>
+    </a>
+    <a href="transactions.html" class="action-btn">
+      <i class="fas fa-exchange-alt"></i>
+      <span>Transactions</span>
+    </a>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tokens">Tokens</button>
+      <button class="tab-btn" data-tab="defi">DeFi</button>
+      <button class="tab-btn" data-tab="nfts">NFTs</button>
+      <button class="tab-btn" data-tab="card">Card</button>
+    </div>
+  </div>
+
+  <div class="tab-content active" id="tokens-tab">
+    <div class="token-list-header">
+      <button class="menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="token-actions">
+        <button class="refresh-btn" id="refreshTokensBtn">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="add-btn">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="token-list" id="tokenList">
+      <!-- Tokens will be loaded here -->
+    </div>
+
+    <div class="manage-tokens">
+      <button id="manageTokensBtn">
+        <i class="fas fa-list"></i>
+        Manage tokens
+      </button>
+    </div>
+  </div>
+
+  <div class="tab-content" id="defi-tab">
+    <div class="coming-soon">
+      <i class="fas fa-rocket"></i>
+      <h3>Coming Soon</h3>
+      <p>We're working on bringing DeFi features to your wallet.</p>
+    </div>
+  </div>
+
+  <div class="tab-content" id="nfts-tab">
+    <div class="coming-soon">
+      <i class="fas fa-images"></i>
+      <h3>Coming Soon</h3>
+      <p>Your NFT collection will be displayed here.</p>
+    </div>
+  </div>
+
+  <div class="tab-content" id="card-tab">
+    <div class="coming-soon">
+      <i class="fas fa-credit-card"></i>
+      <h3>Coming Soon</h3>
+      <p>Crypto card features are on the way!</p>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item" id="marketsBtn">
+      <i class="fas fa-chart-bar"></i>
+      <span>Markets</span>
+    </a>
+    <a href="#" class="nav-item" id="tradeBtn">
+      <i class="fas fa-exchange-alt"></i>
+      <span>Trade</span>
+    </a>
+    <a href="#" class="nav-item" id="discoverBtn">
+      <i class="fas fa-compass"></i>
+      <span>Discover</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Wallet</span>
+    </a>
+  </nav>
+</div>
+
+<!-- Coming Soon Modal -->
+<div class="modal" id="comingSoonModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Coming Soon</h3>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="coming-soon-content">
+        <i class="fas fa-rocket"></i>
+        <p>This feature is coming soon!</p>
+        <p class="coming-soon-subtitle">We're working hard to bring you this feature. Stay tuned for updates.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
+

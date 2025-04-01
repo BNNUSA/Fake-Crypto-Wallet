@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Wallet - Receive</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="app-container">
+  <div class="page-header">
+    <a href="dashboard.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+    <h1>Receive <span id="tokenTitle">Token</span></h1>
+  </div>
+
+      <div class="wallet-addresses">
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">Main Address:</div>
+      <div class="wallet-address-value" id="mainWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="main">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">TRX Address:</div>
+      <div class="wallet-address-value" id="trxWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="trx">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">USDT Address:</div>
+      <div class="wallet-address-value" id="usdtWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="usdt">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+    <div class="wallet-address-item">
+      <div class="wallet-address-label">USDC Address:</div>
+      <div class="wallet-address-value" id="usdcWalletAddress">Loading...</div>
+      <button class="copy-btn" data-address="usdc">
+        <i class="far fa-copy"></i>
+      </button>
+    </div>
+  </div>
+
+    <div class="address-info">
+      <p>Only send <span id="selectedTokenName">Token</span> to this address. Sending any other coins may result in permanent loss.</p>
+    </div>
+
+    <div class="share-options">
+      <button id="shareAddressBtn" class="btn btn-outline btn-block">
+        <i class="fas fa-share-alt"></i> Share Address
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/receive.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+</body>
+</html>
+

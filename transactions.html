@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Wallet - Transactions</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="page-header">
+      <a href="dashboard.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Transactions</h1>
+    </div>
+
+    <div class="transactions-filter">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="sent">Sent</button>
+        <button class="filter-tab" data-filter="received">Received</button>
+      </div>
+      <div class="search-container">
+        <div class="input-with-icon search-input">
+          <i class="fas fa-search"></i>
+          <input type="search" id="transactionSearch" placeholder="Search transactions...">
+        </div>
+      </div>
+    </div>
+
+    <div class="transactions-list" id="transactionsList">
+      <!-- Transactions will be loaded here -->
+      <div class="loading-spinner" id="transactionsLoading">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    </div>
+    
+    <div id="noTransactions" class="no-data hidden">
+      <p>No transactions found</p>
+    </div>
+  </div>
+
+  <!-- Transaction Receipt Modal -->
+  <div class="modal" id="receiptModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Transaction Receipt</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="receipt" id="receiptContent">
+          <!-- Receipt content will be loaded here -->
+        </div>
+        <button id="printReceiptBtn" class="btn btn-outline btn-block">
+          <i class="fas fa-print"></i> Print Receipt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/transactions.js"></script>
+</body>
+</html>
+
