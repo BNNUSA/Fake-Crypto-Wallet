@@ -89,12 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
           note,
         }),
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`)
-          }
-          return response.json()
-        })
+        .then((response) => response.json())
         .then((data) => {
           if (data.success) {
             // Show receipt
@@ -107,21 +102,13 @@ document.addEventListener("DOMContentLoaded", () => {
               txId: data.transactionId || generateTxId(),
               note,
             })
-
-            // Update the current user's balance in localStorage
-            const updatedUser = { ...currentUser }
-            updatedUser.balance -= Number.parseFloat(amount)
-            localStorage.setItem("currentUser", JSON.stringify(updatedUser))
-
-            // Show success message
-            alert("Transfer successful!")
           } else {
             errorElement.textContent = data.message || "Failed to send funds"
           }
         })
         .catch((error) => {
-          console.error("Send funds error:", error)
           errorElement.textContent = "An error occurred. Please try again."
+          console.error("Send funds error:", error)
         })
     })
   }
@@ -146,25 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return
       }
 
-      // Check if user has enough balance
-      let userBalance = 0
-      switch (tokenType) {
-        case "TRX":
-          userBalance = currentUser.trxBalance || 0
-          break
-        case "USDT":
-          userBalance = currentUser.usdtBalance || 0
-          break
-        case "USDC":
-          userBalance = currentUser.usdcBalance || 0
-          break
-      }
-
-      if (Number.parseFloat(amount) > userBalance) {
-        errorElement.textContent = `Insufficient ${tokenType} balance. You have ${userBalance} ${tokenType}.`
-        return
-      }
-
       // Make API request to send token
       fetch("/api/transactions/send", {
         method: "POST",
@@ -179,12 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
           note,
         }),
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`)
-          }
-          return response.json()
-        })
+        .then((response) => response.json())
         .then((data) => {
           if (data.success) {
             // Show receipt
@@ -197,31 +160,13 @@ document.addEventListener("DOMContentLoaded", () => {
               txId: data.transactionId || generateTxId(),
               note,
             })
-
-            // Update the current user's token balance in localStorage
-            const updatedUser = { ...currentUser }
-            switch (tokenType) {
-              case "TRX":
-                updatedUser.trxBalance -= Number.parseFloat(amount)
-                break
-              case "USDT":
-                updatedUser.usdtBalance -= Number.parseFloat(amount)
-                break
-              case "USDC":
-                updatedUser.usdcBalance -= Number.parseFloat(amount)
-                break
-            }
-            localStorage.setItem("currentUser", JSON.stringify(updatedUser))
-
-            // Show success message
-            alert("Transfer successful!")
           } else {
             errorElement.textContent = data.message || "Failed to send funds"
           }
         })
         .catch((error) => {
-          console.error("Send token error:", error)
           errorElement.textContent = "An error occurred. Please try again."
+          console.error("Send funds error:", error)
         })
     })
   }

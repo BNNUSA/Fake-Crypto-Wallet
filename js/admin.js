@@ -21,15 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const adminUsdcBalance = document.getElementById("adminUsdcBalance")
 
   if (adminTrxBalance && currentUser.trxBalance) {
-    adminTrxBalance.textContent = currentUser.trxBalance.toLocaleString()
+    adminTrxBalance.textContent = formatNumber(currentUser.trxBalance)
   }
 
   if (adminUsdtBalance && currentUser.usdtBalance) {
-    adminUsdtBalance.textContent = currentUser.usdtBalance.toLocaleString()
+    adminUsdtBalance.textContent = formatNumber(currentUser.usdtBalance)
   }
 
   if (adminUsdcBalance && currentUser.usdcBalance) {
-    adminUsdcBalance.textContent = currentUser.usdcBalance.toLocaleString()
+    adminUsdcBalance.textContent = formatNumber(currentUser.usdcBalance)
   }
 
   // Dark mode toggle
@@ -573,30 +573,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div")
     div.className = "user-item"
     div.innerHTML = `
-    <div class="user-info">
-      <div class="user-name">${user.name}</div>
-      <div class="user-email">${user.email}</div>
-      <div class="user-balance">$${Number.parseFloat(user.balance).toFixed(2)}</div>
-      <div class="user-status status-${user.status}">${user.status}</div>
-      <div class="user-wallets">
-        <div>Main: ${formatWalletAddress(user.mainWalletAddress)}</div>
-        <div>TRX: ${formatWalletAddress(user.trxWalletAddress)}</div>
-        <div>USDT: ${formatWalletAddress(user.usdtWalletAddress)}</div>
-        <div>USDC: ${formatWalletAddress(user.usdcWalletAddress)}</div>
-      </div>
-    </div>
-    <div class="user-actions">
-      <button class="user-action-btn view" data-id="${user.id}" title="View User">
-        <i class="fas fa-eye"></i>
-      </button>
-      <button class="user-action-btn edit" data-id="${user.id}" title="Edit User">
-        <i class="fas fa-edit"></i>
-      </button>
-      <button class="user-action-btn delete" data-id="${user.id}" title="Delete User">
-        <i class="fas fa-trash"></i>
-      </button>
-    </div>
-  `
+   <div class="user-header">
+     <div class="user-info">
+       <div class="user-name">${user.name}</div>
+       <div class="user-email">${user.email}</div>
+       <div class="user-balance">$${formatNumber(user.balance)}</div>
+       <div class="user-status status-${user.status}">${user.status}</div>
+     </div>
+   </div>
+   <div class="user-wallets">
+     <div>Main: ${formatWalletAddress(user.mainWalletAddress)}</div>
+     <div>TRX: ${formatWalletAddress(user.trxWalletAddress)}</div>
+     <div>USDT: ${formatWalletAddress(user.usdtWalletAddress)}</div>
+     <div>USDC: ${formatWalletAddress(user.usdcWalletAddress)}</div>
+   </div>
+   <div class="user-actions">
+     <button class="user-action-btn view" data-id="${user.id}" title="View User">
+       <i class="fas fa-eye"></i>
+     </button>
+     <button class="user-action-btn edit" data-id="${user.id}" title="Edit User">
+       <i class="fas fa-edit"></i>
+     </button>
+     <button class="user-action-btn delete" data-id="${user.id}" title="Delete User">
+       <i class="fas fa-trash"></i>
+     </button>
+   </div>
+ `
 
     // Add event listeners for action buttons
     const viewBtn = div.querySelector(".view")
@@ -626,22 +628,22 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "transaction-item"
 
     div.innerHTML = `
-      <div class="transaction-info">
-        <div class="transaction-details">
-          <h4>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</h4>
-          <div class="transaction-date">${formatDate(transaction.createdAt)}</div>
-          <div class="transaction-type">${transaction.type}</div>
-          <div class="transaction-parties">
-            <div>From: ${transaction.fromName || "N/A"}</div>
-            <div>To: ${transaction.toName || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div class="transaction-meta">
-        <div class="transaction-amount">$${Number.parseFloat(transaction.amount).toFixed(2)}</div>
-        <div class="transaction-status">${transaction.status}</div>
-      </div>
-    `
+     <div class="transaction-info">
+       <div class="transaction-details">
+         <h4>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</h4>
+         <div class="transaction-date">${formatDate(transaction.createdAt)}</div>
+         <div class="transaction-type">${transaction.type}</div>
+         <div class="transaction-parties">
+           <div>From: ${transaction.fromName || "N/A"}</div>
+           <div>To: ${transaction.toName || "N/A"}</div>
+         </div>
+       </div>
+     </div>
+     <div class="transaction-meta">
+       <div class="transaction-amount">$${formatNumber(transaction.amount)}</div>
+       <div class="transaction-status">${transaction.status}</div>
+     </div>
+   `
 
     // Add click event to show receipt
     div.addEventListener("click", () => {
@@ -664,18 +666,18 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "wallet-item"
 
     div.innerHTML = `
-      <div class="wallet-info">
-        <div class="wallet-icon">
-          <i class="fab fa-${wallet.type.toLowerCase()}"></i>
-        </div>
-        <div class="wallet-details">
-          <div class="wallet-type">${wallet.type.toUpperCase()}</div>
-          <div class="wallet-address">${wallet.address}</div>
-          <div>Owner: ${wallet.userName}</div>
-        </div>
-      </div>
-      <div class="wallet-balance">${wallet.balance} ${wallet.type.toUpperCase()}</div>
-    `
+     <div class="wallet-info">
+       <div class="wallet-icon">
+         <i class="fab fa-${wallet.type.toLowerCase()}"></i>
+       </div>
+       <div class="wallet-details">
+         <div class="wallet-type">${wallet.type.toUpperCase()}</div>
+         <div class="wallet-address">${wallet.address}</div>
+         <div>Owner: ${wallet.userName}</div>
+       </div>
+     </div>
+     <div class="wallet-balance">${formatNumber(wallet.balance)} ${wallet.type.toUpperCase()}</div>
+   `
 
     return div
   }
@@ -692,7 +694,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(`User Details:
 Name: ${data.user.name}
 Email: ${data.user.email}
-Balance: $${data.user.balance}
+Balance: $${formatNumber(data.user.balance)}
 Status: ${data.user.status}
 Main Address: ${data.user.mainWalletAddress}
 TRX Address: ${data.user.trxWalletAddress}
@@ -770,6 +772,15 @@ USDC Address: ${data.user.usdcWalletAddress}`)
     return address.substring(0, 10) + "..." + address.substring(address.length - 6)
   }
 
+  // Format number with commas
+  function formatNumber(num) {
+    if (num === undefined || num === null) return "0.00"
+    return Number.parseFloat(num).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  }
+
   function showReceipt(transaction) {
     const receiptModal = document.getElementById("receiptModal")
     const receiptContent = document.getElementById("receiptContent")
@@ -780,47 +791,47 @@ USDC Address: ${data.user.usdcWalletAddress}`)
     const formattedDate = date.toLocaleDateString() + " " + date.toLocaleTimeString()
 
     receiptContent.innerHTML = `
-      <div class="receipt-header">
-        <div class="receipt-logo"><i class="fas fa-receipt"></i></div>
-        <div class="receipt-title">Transaction Receipt</div>
-        <div class="receipt-subtitle">${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</div>
-      </div>
-      
-      <div class="receipt-amount">
-        <div class="receipt-amount-value">$${transaction.amount.toFixed(2)}</div>
-      </div>
-      
-      <div class="receipt-details">
-        <div class="receipt-row">
-          <div class="receipt-label">Date</div>
-          <div class="receipt-value">${formattedDate}</div>
-        </div>
-        <div class="receipt-row">
-          <div class="receipt-label">From</div>
-          <div class="receipt-value">${transaction.sender || "Admin"}</div>
-        </div>
-        <div class="receipt-row">
-          <div class="receipt-label">To</div>
-          <div class="receipt-value">${transaction.recipient}</div>
-        </div>
-        <div class="receipt-row">
-          <div class="receipt-label">Token</div>
-          <div class="receipt-value">${transaction.token}</div>
-        </div>
-        <div class="receipt-row">
-          <div class="receipt-label">Transaction ID</div>
-          <div class="receipt-value">${transaction.txId}</div>
-        </div>
-        <div class="receipt-row">
-          <div class="receipt-label">Status</div>
-          <div class="receipt-value">Completed</div>
-        </div>
-      </div>
-      
-      <div class="receipt-footer">
-        <p>Thank you for using our service</p>
-      </div>
-    `
+     <div class="receipt-header">
+       <div class="receipt-logo"><i class="fas fa-receipt"></i></div>
+       <div class="receipt-title">Transaction Receipt</div>
+       <div class="receipt-subtitle">${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</div>
+     </div>
+     
+     <div class="receipt-amount">
+       <div class="receipt-amount-value">$${formatNumber(transaction.amount)} ${transaction.token}</div>
+     </div>
+     
+     <div class="receipt-details">
+       <div class="receipt-row">
+         <div class="receipt-label">Date</div>
+         <div class="receipt-value">${formattedDate}</div>
+       </div>
+       <div class="receipt-row">
+         <div class="receipt-label">From</div>
+         <div class="receipt-value">${transaction.sender || "Admin"}</div>
+       </div>
+       <div class="receipt-row">
+         <div class="receipt-label">To</div>
+         <div class="receipt-value">${transaction.recipient}</div>
+       </div>
+       <div class="receipt-row">
+         <div class="receipt-label">Token</div>
+         <div class="receipt-value">${transaction.token}</div>
+       </div>
+       <div class="receipt-row">
+         <div class="receipt-label">Transaction ID</div>
+         <div class="receipt-value">${transaction.txId}</div>
+       </div>
+       <div class="receipt-row">
+         <div class="receipt-label">Status</div>
+         <div class="receipt-value">Completed</div>
+       </div>
+     </div>
+     
+     <div class="receipt-footer">
+       <p>Thank you for using our service</p>
+     </div>
+   `
 
     receiptModal.classList.add("active")
 

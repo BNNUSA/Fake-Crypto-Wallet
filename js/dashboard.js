@@ -86,56 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadBalance()
 
   // Load tokens
-  const loadTokens = () => {
-    const tokenList = document.getElementById("tokenList")
-    if (!tokenList) return
-
-    fetch("/api/users/tokens", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success && data.tokens.length > 0) {
-          tokenList.innerHTML = ""
-          data.tokens.forEach((token) => {
-            const tokenItem = createTokenItem(token)
-            tokenList.appendChild(tokenItem)
-          })
-        } else {
-          // Add default tokens
-          const defaultTokens = [
-            { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
-            { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
-            { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
-          ]
-
-          tokenList.innerHTML = ""
-          defaultTokens.forEach((token) => {
-            const tokenItem = createTokenItem(token)
-            tokenList.appendChild(tokenItem)
-          })
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading tokens:", error)
-
-        // Add default tokens on error
-        const defaultTokens = [
-          { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
-          { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
-          { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
-        ]
-
-        tokenList.innerHTML = ""
-        defaultTokens.forEach((token) => {
-          const tokenItem = createTokenItem(token)
-          tokenList.appendChild(tokenItem)
-        })
-      })
-  }
-
   loadTokens()
 
   // Toggle balance visibility
@@ -186,13 +136,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Coming soon features
   const earnBtn = document.getElementById("earnBtn")
+  const swapBtn = document.getElementById("swapBtn")
+  const settingsBtn = document.getElementById("settingsBtn")
+  const trendingBtn = document.getElementById("trendingBtn")
   const getGasBtn = document.getElementById("getGasBtn")
   const marketsBtn = document.getElementById("marketsBtn")
   const tradeBtn = document.getElementById("tradeBtn")
   const discoverBtn = document.getElementById("discoverBtn")
   const comingSoonModal = document.getElementById("comingSoonModal")
 
-  const comingSoonFeatures = [earnBtn, getGasBtn, marketsBtn, tradeBtn, discoverBtn]
+  const comingSoonFeatures = [earnBtn, settingsBtn, trendingBtn, swapBtn, getGasBtn, marketsBtn, tradeBtn, discoverBtn]
 
   comingSoonFeatures.forEach((btn) => {
     if (btn) {
@@ -241,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          balanceAmount.textContent = `$${Number.parseFloat(data.balance).toFixed(2)}`
+          balanceAmount.textContent = `$${formatNumber(data.balance)}`
         } else {
           balanceAmount.textContent = "$0.00"
         }
@@ -249,6 +202,56 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => {
         console.error("Error loading balance:", error)
         balanceAmount.textContent = "$0.00"
+      })
+  }
+
+  function loadTokens() {
+    const tokenList = document.getElementById("tokenList")
+    if (!tokenList) return
+
+    fetch("/api/users/tokens", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success && data.tokens.length > 0) {
+          tokenList.innerHTML = ""
+          data.tokens.forEach((token) => {
+            const tokenItem = createTokenItem(token)
+            tokenList.appendChild(tokenItem)
+          })
+        } else {
+          // Add default tokens
+          const defaultTokens = [
+            { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
+            { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
+            { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
+          ]
+
+          tokenList.innerHTML = ""
+          defaultTokens.forEach((token) => {
+            const tokenItem = createTokenItem(token)
+            tokenList.appendChild(tokenItem)
+          })
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading tokens:", error)
+
+        // Add default tokens on error
+        const defaultTokens = [
+          { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
+          { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
+          { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
+        ]
+
+        tokenList.innerHTML = ""
+        defaultTokens.forEach((token) => {
+          const tokenItem = createTokenItem(token)
+          tokenList.appendChild(tokenItem)
+        })
       })
   }
 
@@ -261,18 +264,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const changePrefix = token.change >= 0 ? "+" : ""
 
     div.innerHTML = `
-    <div class="token-icon ${token.symbol.toLowerCase()}">
-      <img src="img/${token.symbol.toLowerCase()}.png" alt="${token.name}" onerror="this.src='https://files.catbox.moe/9tms9c.jpg'">
-    </div>
-    <div class="token-info">
-      <div class="token-name">${token.symbol}</div>
-      <div class="token-balance">${token.balance.toFixed(2)}</div>
-    </div>
-    <div class="token-price">
-      <div class="token-value">$${(token.balance * token.price).toFixed(2)}</div>
-      <div class="token-change ${changeClass}">$${token.price.toFixed(2)} ${changePrefix}${token.change}%</div>
-    </div>
-  `
+   <div class="token-icon ${token.symbol.toLowerCase()}">
+     <img src="img/${token.symbol.toLowerCase()}.png" alt="${token.name}" onerror="this.src='img/default-token.png'">
+   </div>
+   <div class="token-info">
+     <div class="token-name">${token.symbol}</div>
+     <div class="token-subtitle">${token.name}</div>
+     <div class="token-balance">${formatNumber(token.balance)}</div>
+   </div>
+   <div class="token-price">
+     <div class="token-value">$${formatNumber(token.balance * token.price)}</div>
+     <div class="token-change ${changeClass}">$${token.price.toFixed(2)} ${changePrefix}${token.change}%</div>
+   </div>
+ `
 
     // Add click event to show token actions
     div.addEventListener("click", () => {
@@ -290,28 +294,28 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.id = "tokenActionsModal"
 
     modal.innerHTML = `
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>${tokenSymbol} Actions</h3>
-      <button class="close-modal">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="token-actions-container">
-        <a href="send.html?token=${tokenSymbol}" class="token-action-btn">
-          <i class="fas fa-arrow-up"></i>
-          <span>Send ${tokenSymbol}</span>
-        </a>
-        <a href="receive.html?token=${tokenSymbol}" class="token-action-btn">
-          <i class="fas fa-arrow-down"></i>
-          <span>Receive ${tokenSymbol}</span>
-        </a>
-        <a href="#" class="token-action-btn fund-token-btn" data-token="${tokenSymbol}">
-          <i class="fas fa-wallet"></i>
-          <span>Fund from Main</span>
-        </a>
-      </div>
-    </div>
-  </div>
+ <div class="modal-content">
+   <div class="modal-header">
+     <h3>${tokenSymbol} Actions</h3>
+     <button class="close-modal">&times;</button>
+   </div>
+   <div class="modal-body">
+     <div class="token-actions-container">
+       <a href="send.html?token=${tokenSymbol}" class="token-action-btn">
+         <i class="fas fa-arrow-up"></i>
+         <span>Send ${tokenSymbol}</span>
+       </a>
+       <a href="receive.html?token=${tokenSymbol}" class="token-action-btn">
+         <i class="fas fa-arrow-down"></i>
+         <span>Receive ${tokenSymbol}</span>
+       </a>
+       <a href="#" class="token-action-btn fund-token-btn" data-token="${tokenSymbol}">
+         <i class="fas fa-wallet"></i>
+         <span>Fund from Main</span>
+       </a>
+     </div>
+   </div>
+ </div>
 `
 
     document.body.appendChild(modal)
@@ -353,30 +357,30 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.id = "fundTokenModal"
 
     modal.innerHTML = `
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Fund ${tokenSymbol} Wallet</h3>
-      <button class="close-modal">&times;</button>
-    </div>
-    <div class="modal-body">
-      <form id="fundTokenForm">
-        <input type="hidden" id="tokenType" value="${tokenSymbol}">
-        <div class="form-group">
-          <label for="fundAmount">Amount</label>
-          <div class="input-with-icon">
-            <i class="fas fa-dollar-sign"></i>
-            <input type="number" id="fundAmount" min="0.01" step="0.01" placeholder="0.00" required>
-          </div>
-        </div>
-        
-        <div class="form-error" id="fundTokenError"></div>
-        
-        <button type="submit" class="btn btn-primary btn-block">
-          <i class="fas fa-wallet"></i> Fund ${tokenSymbol} Wallet
-        </button>
-      </form>
-    </div>
-  </div>
+ <div class="modal-content">
+   <div class="modal-header">
+     <h3>Fund ${tokenSymbol} Wallet</h3>
+     <button class="close-modal">&times;</button>
+   </div>
+   <div class="modal-body">
+     <form id="fundTokenForm">
+       <input type="hidden" id="tokenType" value="${tokenSymbol}">
+       <div class="form-group">
+         <label for="fundAmount">Amount</label>
+         <div class="input-with-icon">
+           <i class="fas fa-dollar-sign"></i>
+           <input type="number" id="fundAmount" min="0.01" step="0.01" placeholder="0.00" required>
+         </div>
+       </div>
+       
+       <div class="form-error" id="fundTokenError"></div>
+       
+       <button type="submit" class="btn btn-primary btn-block">
+         <i class="fas fa-wallet"></i> Fund ${tokenSymbol} Wallet
+       </button>
+     </form>
+   </div>
+ </div>
 `
 
     document.body.appendChild(modal)
@@ -451,6 +455,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!address) return "Not available"
     if (address.length <= 12) return address
     return address.substring(0, 10) + "..." + address.substring(address.length - 6)
+  }
+
+  // Format number with commas
+  function formatNumber(num) {
+    if (num === undefined || num === null) return "0.00"
+    return Number.parseFloat(num).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
   }
 })
 
