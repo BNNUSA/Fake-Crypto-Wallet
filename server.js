@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs")
 const { v4: uuidv4 } = require("uuid")
 
 const app = express()
-const PORT = process.env.PORT || 7860
+const PORT = process.env.PORT || 3000
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
 
 // Middleware
@@ -314,7 +314,6 @@ app.get("/api/transactions", authenticateToken, (req, res) => {
   res.json({ success: true, transactions: formattedTransactions })
 })
 
-// Update the send endpoint to fix the token balance issue
 app.post("/api/transactions/send", authenticateToken, (req, res) => {
   const { recipientAddress, amount, tokenType, note } = req.body
   const senderId = req.user.id
@@ -328,37 +327,28 @@ app.post("/api/transactions/send", authenticateToken, (req, res) => {
 
   // Get users
   const users = readJSONFile(USERS_FILE)
-  const senderIndex = users.findIndex((user) => user.id === senderId)
-
-  if (senderIndex === -1) {
-    return res.status(404).json({ success: false, message: "Sender not found" })
-  }
-
-  const sender = users[senderIndex]
+  const sender = users.find((user) => user.id === senderId)
 
   // Find recipient by wallet address based on token type
   let recipient
-  let recipientIndex = -1
-
   switch (tokenType) {
     case "TRX":
-      recipientIndex = users.findIndex((user) => user.trxWalletAddress === recipientAddress)
+      recipient = users.find((user) => user.trxWalletAddress === recipientAddress)
       break
     case "USDT":
-      recipientIndex = users.findIndex((user) => user.usdtWalletAddress === recipientAddress)
+      recipient = users.find((user) => user.usdtWalletAddress === recipientAddress)
       break
     case "USDC":
-      recipientIndex = users.findIndex((user) => user.usdcWalletAddress === recipientAddress)
+      recipient = users.find((user) => user.usdcWalletAddress === recipientAddress)
       break
     default:
       return res.status(400).json({ success: false, message: "Invalid token type" })
   }
 
-  if (recipientIndex === -1) {
+  // Check if recipient exists
+  if (!recipient) {
     return res.status(404).json({ success: false, message: "Recipient not found" })
   }
-
-  recipient = users[recipientIndex]
 
   let senderBalanceField, recipientBalanceField
   switch (tokenType) {
@@ -378,28 +368,14 @@ app.post("/api/transactions/send", authenticateToken, (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid token type" })
   }
 
-  // Initialize balance fields if they don't exist
-  if (sender[senderBalanceField] === undefined) {
-    sender[senderBalanceField] = 0
-  }
-
-  if (recipient[recipientBalanceField] === undefined) {
-    recipient[recipientBalanceField] = 0
-  }
-
   // Check if sender has enough balance
-  if (Number.parseFloat(sender[senderBalanceField]) < Number.parseFloat(amount)) {
-    return res.status(400).json({
-      success: false,
-      message: `Insufficient balance. You have ${sender[senderBalanceField]} ${tokenType}.`,
-    })
+  if (sender[senderBalanceField] < amount) {
+    return res.status(400).json({ success: false, message: "Insufficient balance" })
   }
 
   // Update balances
-  users[senderIndex][senderBalanceField] =
-    Number.parseFloat(users[senderIndex][senderBalanceField]) - Number.parseFloat(amount)
-  users[recipientIndex][recipientBalanceField] =
-    Number.parseFloat(users[recipientIndex][recipientBalanceField]) + Number.parseFloat(amount)
+  sender[senderBalanceField] -= amount
+  recipient[recipientBalanceField] += amount
 
   // Save updated users
   writeJSONFile(USERS_FILE, users)
@@ -409,7 +385,7 @@ app.post("/api/transactions/send", authenticateToken, (req, res) => {
   const newTransaction = {
     id: uuidv4(),
     type: "transfer",
-    amount: Number.parseFloat(amount),
+    amount,
     tokenType,
     fromUserId: sender.id,
     toUserId: recipient.id,
@@ -424,16 +400,10 @@ app.post("/api/transactions/send", authenticateToken, (req, res) => {
   transactions.push(newTransaction)
   writeJSONFile(TRANSACTIONS_FILE, transactions)
 
-  res.json({
-    success: true,
-    message: "Transfer successful",
-    transactionId: newTransaction.id,
-    transaction: newTransaction,
-  })
+  res.json({ success: true, message: "Transfer successful", transactionId: newTransaction.id })
 })
 
 // Add this new endpoint after the existing send endpoint
-// Update the send-main endpoint to fix the error
 app.post("/api/transactions/send-main", authenticateToken, (req, res) => {
   const { recipientAddress, amount, note } = req.body
   const senderId = req.user.id
@@ -445,22 +415,15 @@ app.post("/api/transactions/send-main", authenticateToken, (req, res) => {
 
   // Get users
   const users = readJSONFile(USERS_FILE)
-  const senderIndex = users.findIndex((user) => user.id === senderId)
-
-  if (senderIndex === -1) {
-    return res.status(404).json({ success: false, message: "Sender not found" })
-  }
-
-  const sender = users[senderIndex]
+  const sender = users.find((user) => user.id === senderId)
 
   // Find recipient by main wallet address
-  const recipientIndex = users.findIndex((user) => user.mainWalletAddress === recipientAddress)
+  const recipient = users.find((user) => user.mainWalletAddress === recipientAddress)
 
-  if (recipientIndex === -1) {
+  // Check if recipient exists
+  if (!recipient) {
     return res.status(404).json({ success: false, message: "Recipient not found" })
   }
-
-  const recipient = users[recipientIndex]
 
   // Check if sender has enough balance
   if (sender.balance < amount) {
@@ -468,8 +431,8 @@ app.post("/api/transactions/send-main", authenticateToken, (req, res) => {
   }
 
   // Update balances
-  users[senderIndex].balance -= Number.parseFloat(amount)
-  users[recipientIndex].balance += Number.parseFloat(amount)
+  sender.balance -= amount
+  recipient.balance += amount
 
   // Save updated users
   writeJSONFile(USERS_FILE, users)
@@ -479,7 +442,7 @@ app.post("/api/transactions/send-main", authenticateToken, (req, res) => {
   const newTransaction = {
     id: uuidv4(),
     type: "main-to-main",
-    amount: Number.parseFloat(amount),
+    amount,
     tokenType: "MAIN",
     fromUserId: sender.id,
     toUserId: recipient.id,
@@ -495,12 +458,7 @@ app.post("/api/transactions/send-main", authenticateToken, (req, res) => {
   transactions.push(newTransaction)
   writeJSONFile(TRANSACTIONS_FILE, transactions)
 
-  res.json({
-    success: true,
-    message: "Transfer successful",
-    transactionId: newTransaction.id,
-    transaction: newTransaction,
-  })
+  res.json({ success: true, message: "Transfer successful", transactionId: newTransaction.id })
 })
 
 app.post("/api/admin/fund-user", authenticateToken, isAdmin, (req, res) => {

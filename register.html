@@ -1,73 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto Wallet - Register</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Crypto Wallet - Register</title>
+ <link rel="stylesheet" href="css/styles.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-  <div class="app-container">
-    <div class="login-container">
-      <div class="logo">
-        <i class="fas fa-wallet"></i>
-        <h1>Create Account</h1>
-      </div>
-      
-      <form id="registerForm" class="auth-form">
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <div class="input-with-icon">
-            <i class="fas fa-user"></i>
-            <input type="text" id="name" placeholder="Enter your full name" required>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="email">Email</label>
-          <div class="input-with-icon">
-            <i class="fas fa-envelope"></i>
-            <input type="email" id="email" placeholder="Enter your email" required>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="input-with-icon">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Create a password" required>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <div class="input-with-icon">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
-          </div>
-        </div>
-        
-        <div class="form-error" id="registerError"></div>
-        
-        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
-        
-        <div class="auth-links">
-          <p>Already have an account? <a href="index.html">Login</a></p>
-        </div>
-      </form>
-      
-      <div class="theme-toggle">
-        <label for="darkModeToggle">Dark Mode</label>
-        <label class="switch">
-          <input type="checkbox" id="darkModeToggle" checked>
-          <span class="slider round"></span>
-        </label>
-      </div>
-    </div>
-  </div>
+<body class="dark-mode">
+ <div class="app-container">
+   <div class="auth-header">
+     <h1>Create Account</h1>
+     <div class="auth-header-actions">
+       <button id="helpBtn" class="action-btn">
+         <i class="fas fa-question-circle"></i>
+       </button>
+     </div>
+   </div>
+   
+   <div class="login-container">
+     <div class="logo-container">
+       <div class="logo">
+         <i class="fas fa-wallet"></i>
+       </div>
+       <h1>Crypto Wallet</h1>
+       <p class="tagline">Join the future of finance</p>
+     </div>
+     
+     <form id="registerForm" class="auth-form">
+       <div class="form-group">
+         <label for="name">Full Name</label>
+         <div class="input-with-icon">
+           <i class="fas fa-user"></i>
+           <input type="text" id="name" placeholder="Enter your full name" required>
+         </div>
+       </div>
+       
+       <div class="form-group">
+         <label for="email">Email</label>
+         <div class="input-with-icon">
+           <i class="fas fa-envelope"></i>
+           <input type="email" id="email" placeholder="Enter your email" required>
+         </div>
+       </div>
+       
+       <div class="form-group">
+         <label for="password">Password</label>
+         <div class="input-with-icon">
+           <i class="fas fa-lock"></i>
+           <input type="password" id="password" placeholder="Create a password" required>
+         </div>
+       </div>
+       
+       <div class="form-group">
+         <label for="confirmPassword">Confirm Password</label>
+         <div class="input-with-icon">
+           <i class="fas fa-lock"></i>
+           <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+         </div>
+       </div>
+       
+       <div class="form-error" id="registerError"></div>
+       
+       <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+       
+       <div class="auth-links">
+         <p>Already have an account? <a href="index.html">Login</a></p>
+       </div>
+     </form>
+     
+     <div class="theme-toggle">
+       <label for="darkModeToggle">Dark Mode</label>
+       <label class="switch">
+         <input type="checkbox" id="darkModeToggle" checked>
+         <span class="slider round"></span>
+       </label>
+     </div>
+   </div>
+ </div>
 
-  <script src="js/auth.js"></script>
+ <script src="js/auth.js"></script>
 </body>
 </html>
 

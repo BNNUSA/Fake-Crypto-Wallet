@@ -7,191 +7,189 @@
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="dark-mode">
 <div class="app-container">
-  <div class="wallet-header">
-    <div class="wallet-dropdown">
-      <span id="walletName">My wallet</span>
-      <i class="fas fa-chevron-down"></i>
-    </div>
-    <div class="network-dropdown">
-      <div class="network-icon">
-        <i class="fas fa-sun"></i>
-      </div>
-      <span id="networkName">Tron</span>
-      <i class="fas fa-chevron-down"></i>
-    </div>
-  </div>
+ <div class="dashboard-header">
+   <div class="dashboard-title">Home</div>
+   <div class="dashboard-actions">
+     <button id="settingsBtn" class="action-btn">
+       <i class="fas fa-cog"></i>
+     </button>
+     <button id="notificationsBtn" class="action-btn">
+       <i class="fas fa-bell"></i>
+     </button>
+   </div>
+ </div>
 
-  <div class="wallet-addresses">
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">Main Address:</div>
-      <div class="wallet-address-value" id="mainWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="main">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">TRX Address:</div>
-      <div class="wallet-address-value" id="trxWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="trx">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">USDT Address:</div>
-      <div class="wallet-address-value" id="usdtWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="usdt">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">USDC Address:</div>
-      <div class="wallet-address-value" id="usdcWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="usdc">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-  </div>
+ <div class="dashboard-search">
+   <i class="fas fa-search"></i>
+   <input type="text" placeholder="Search">
+ </div>
 
-  <div class="balance-container">
-    <div class="balance-amount">
-      <span id="balanceAmount">$0.00</span>
-      <button class="visibility-btn" id="toggleBalanceBtn">
-        <i class="fas fa-eye"></i>
-      </button>
-    </div>
-    <button class="backup-btn" id="backupBtn">
-      <i class="fas fa-shield-alt"></i>
-      Back up
-    </button>
-  </div>
+ <div class="wallet-selector">
+   <div class="wallet-name">
+     <span>Main Wallet</span>
+     <i class="fas fa-chevron-down"></i>
+   </div>
+   <div class="wallet-actions">
+     <button class="action-btn" id="copyBtn">
+       <i class="far fa-copy"></i>
+     </button>
+     <button class="action-btn" id="expandBtn">
+       <i class="fas fa-expand"></i>
+     </button>
+     <button class="action-btn" id="toggleBalanceBtn">
+       <i class="fas fa-eye"></i>
+     </button>
+   </div>
+ </div>
 
-  <div class="action-buttons">
-    <a href="send.html" class="action-btn">
-      <i class="fas fa-arrow-up"></i>
-      <span>Send</span>
-    </a>
-    <a href="receive.html" class="action-btn">
-      <i class="fas fa-arrow-down"></i>
-      <span>Receive</span>
-    </a>
-    <a href="fund-token.html" class="action-btn">
-      <i class="fas fa-wallet"></i>
-      <span>Fund Token</span>
-    </a>
-    <a href="#" class="action-btn" id="earnBtn">
-      <i class="fas fa-chart-line"></i>
-      <span>Earn</span>
-    </a>
-    <a href="transactions.html" class="action-btn">
-      <i class="fas fa-exchange-alt"></i>
-      <span>Transactions</span>
-    </a>
-  </div>
+ <div class="wallet-balance" id="balanceAmount">$0</div>
 
-  <div class="tabs-container">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="tokens">Tokens</button>
-      <button class="tab-btn" data-tab="defi">DeFi</button>
-      <button class="tab-btn" data-tab="nfts">NFTs</button>
-      <button class="tab-btn" data-tab="card">Card</button>
-    </div>
-  </div>
+ <div class="action-circles">
+   <a href="send.html" class="action-circle">
+     <div class="circle-icon">
+       <i class="fas fa-arrow-up"></i>
+     </div>
+     <div class="circle-label">Send</div>
+   </a>
+   <a href="receive.html" class="action-circle">
+     <div class="circle-icon">
+       <i class="fas fa-arrow-down"></i>
+     </div>
+     <div class="circle-label">Receive</div>
+   </a>
+   <a href="fund-token.html" class="action-circle">
+     <div class="circle-icon">
+       <i class="fas fa-wallet"></i>
+     </div>
+     <div class="circle-label">Fund</div>
+   </a>
+   <a href="#" class="action-circle" id="sellBtn">
+     <div class="circle-icon">
+       <i class="fas fa-exchange-alt"></i>
+     </div>
+     <div class="circle-label">Sell</div>
+   </a>
+   <a href="transactions.html" class="action-circle">
+     <div class="circle-icon">
+       <i class="fas fa-history"></i>
+     </div>
+     <div class="circle-label">History</div>
+   </a>
+ </div>
 
-  <div class="tab-content active" id="tokens-tab">
-    <div class="token-list-header">
-      <button class="menu-btn">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="token-actions">
-        <button class="refresh-btn" id="refreshTokensBtn">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <button class="search-btn">
-          <i class="fas fa-search"></i>
-        </button>
-        <button class="add-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-      </div>
-    </div>
+ <div class="promo-banner">
+   <div class="promo-icon">
+     <img src="img/placeholder.png?height=40&width=200" alt="Promo">
+   </div>
+   <div class="promo-content">
+     <div class="promo-title">Discover & swap the hottest meme tokens on BNB Chain!</div>
+     <div class="promo-action">
+       Dive in <i class="fas fa-arrow-right"></i>
+     </div>
+   </div>
+   <button class="close-btn">
+     <i class="fas fa-times"></i>
+   </button>
+ </div>
 
-    <div class="token-list" id="tokenList">
-      <!-- Tokens will be loaded here -->
-    </div>
+ <div class="crypto-tabs">
+   <div class="crypto-tab active">Crypto</div>
+   <div class="crypto-tab">NFTs</div>
+ </div>
 
-    <div class="manage-tokens">
-      <button id="manageTokensBtn">
-        <i class="fas fa-list"></i>
-        Manage tokens
-      </button>
-    </div>
-  </div>
+ <div class="crypto-list" id="tokenList">
+   <!-- Token items will be loaded here -->
+   <div class="crypto-item">
+     <div class="crypto-icon">
+       <img src="img/usdt.png" alt="USDT" onerror="this.src='img/default-token.png'">
+     </div>
+     <div class="crypto-info">
+       <div class="crypto-name">USDT</div>
+       <div class="crypto-network">Tron</div>
+       <div class="crypto-price">$1.06 <span class="crypto-change positive">+5.27%</span></div>
+     </div>
+     <div class="crypto-amount">
+       <div class="crypto-balance">2,000</div>
+       <div class="crypto-value">$2,125.86</div>
+     </div>
+   </div>
+   
+   <div class="crypto-item">
+     <div class="crypto-icon">
+       <img src="img/trx.png" alt="TRX" onerror="this.src='img/default-token.png'">
+     </div>
+     <div class="crypto-info">
+       <div class="crypto-name">TRX</div>
+       <div class="crypto-network">TRON</div>
+       <div class="crypto-price">$0.25 <span class="crypto-change positive">+1.99%</span></div>
+     </div>
+     <div class="crypto-amount">
+       <div class="crypto-balance">0</div>
+       <div class="crypto-value">$0.00</div>
+     </div>
+   </div>
+   
+   <div class="crypto-item">
+     <div class="crypto-icon">
+       <img src="img/usdc.png" alt="USDC" onerror="this.src='img/default-token.png'">
+     </div>
+     <div class="crypto-info">
+       <div class="crypto-name">USDC</div>
+       <div class="crypto-network">USD Coin</div>
+       <div class="crypto-price">$1.01 <span class="crypto-change positive">+3.30%</span></div>
+     </div>
+     <div class="crypto-amount">
+       <div class="crypto-balance">0</div>
+       <div class="crypto-value">$0.00</div>
+     </div>
+   </div>
+ </div>
+ <br>
+ <br>
+ <br>
+ 
 
-  <div class="tab-content" id="defi-tab">
-    <div class="coming-soon">
-      <i class="fas fa-rocket"></i>
-      <h3>Coming Soon</h3>
-      <p>We're working on bringing DeFi features to your wallet.</p>
-    </div>
-  </div>
-
-  <div class="tab-content" id="nfts-tab">
-    <div class="coming-soon">
-      <i class="fas fa-images"></i>
-      <h3>Coming Soon</h3>
-      <p>Your NFT collection will be displayed here.</p>
-    </div>
-  </div>
-
-  <div class="tab-content" id="card-tab">
-    <div class="coming-soon">
-      <i class="fas fa-credit-card"></i>
-      <h3>Coming Soon</h3>
-      <p>Crypto card features are on the way!</p>
-    </div>
-  </div>
-
-  <nav class="bottom-nav">
-    <a href="dashboard.html" class="nav-item active">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </a>
-    <a href="#" class="nav-item" id="marketsBtn">
-      <i class="fas fa-chart-bar"></i>
-      <span>Markets</span>
-    </a>
-    <a href="#" class="nav-item" id="tradeBtn">
-      <i class="fas fa-exchange-alt"></i>
-      <span>Trade</span>
-    </a>
-    <a href="#" class="nav-item" id="discoverBtn">
-      <i class="fas fa-compass"></i>
-      <span>Discover</span>
-    </a>
-    <a href="profile.html" class="nav-item">
-      <i class="fas fa-user"></i>
-      <span>Wallet</span>
-    </a>
-  </nav>
+ <nav class="bottom-nav">
+   <a href="dashboard.html" class="nav-item active">
+     <i class="fas fa-home"></i>
+     <span>Home</span>
+   </a>
+   <a href="#" class="nav-item" id="trendingBtn">
+     <i class="fas fa-chart-line"></i>
+     <span>Trending</span>
+   </a>
+   <a href="#" class="nav-item" id="swapBtn">
+     <i class="fas fa-exchange-alt"></i>
+     <span>Swap</span>
+   </a>
+   <a href="#" class="nav-item" id="earnBtn">
+     <i class="fas fa-coins"></i>
+     <span>Earn</span>
+   </a>
+   <a href="profile.html" class="nav-item">
+     <i class="fas fa-user"></i>
+     <span>Profile</span>
+   </a>
+ </nav>
 </div>
 
 <!-- Coming Soon Modal -->
 <div class="modal" id="comingSoonModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Coming Soon</h3>
-      <button class="close-modal">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="coming-soon-content">
-        <i class="fas fa-rocket"></i>
-        <p>This feature is coming soon!</p>
-        <p class="coming-soon-subtitle">We're working hard to bring you this feature. Stay tuned for updates.</p>
-      </div>
-    </div>
-  </div>
+ <div class="modal-content">
+   <div class="modal-header">
+     <h3>Coming Soon</h3>
+     <button class="close-modal">&times;</button>
+   </div>
+   <div class="modal-body">
+     <div class="coming-soon-content">
+       <i class="fas fa-rocket"></i>
+       <p>This feature is coming soon!</p>
+       <p class="coming-soon-subtitle">We're working hard to bring you this feature. Stay tuned for updates.</p>
+     </div>
+   </div>
+ </div>
 </div>
 
 <script src="js/dashboard.js"></script>
