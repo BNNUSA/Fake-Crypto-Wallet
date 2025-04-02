@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const adminTrxBalance = document.getElementById("adminTrxBalance")
   const adminUsdtBalance = document.getElementById("adminUsdtBalance")
   const adminUsdcBalance = document.getElementById("adminUsdcBalance")
+  const adminBnbBalance = document.getElementById("adminBnbBalance")
+  const adminSolBalance = document.getElementById("adminSolBalance")
+  const adminEthBalance = document.getElementById("adminEthBalance")
+  const adminBtcBalance = document.getElementById("adminBtcBalance")
+  const adminPolBalance = document.getElementById("adminPolBalance")
 
   if (adminTrxBalance && currentUser.trxBalance) {
     adminTrxBalance.textContent = formatNumber(currentUser.trxBalance)
@@ -30,6 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (adminUsdcBalance && currentUser.usdcBalance) {
     adminUsdcBalance.textContent = formatNumber(currentUser.usdcBalance)
+  }
+
+  if (adminBnbBalance && currentUser.bnbBalance) {
+    adminBnbBalance.textContent = formatNumber(currentUser.bnbBalance)
+  }
+
+  if (adminSolBalance && currentUser.solBalance) {
+    adminSolBalance.textContent = formatNumber(currentUser.solBalance)
+  }
+
+  if (adminEthBalance && currentUser.ethBalance) {
+    adminEthBalance.textContent = formatNumber(currentUser.ethBalance)
+  }
+
+  if (adminBtcBalance && currentUser.btcBalance) {
+    adminBtcBalance.textContent = formatNumber(currentUser.btcBalance)
+  }
+
+  if (adminPolBalance && currentUser.polBalance) {
+    adminPolBalance.textContent = formatNumber(currentUser.polBalance)
   }
 
   // Dark mode toggle
@@ -586,6 +611,11 @@ document.addEventListener("DOMContentLoaded", () => {
      <div>TRX: ${formatWalletAddress(user.trxWalletAddress)}</div>
      <div>USDT: ${formatWalletAddress(user.usdtWalletAddress)}</div>
      <div>USDC: ${formatWalletAddress(user.usdcWalletAddress)}</div>
+     <div>BNB: ${formatWalletAddress(user.bnbWalletAddress)}</div>
+     <div>SOL: ${formatWalletAddress(user.solWalletAddress)}</div>
+     <div>ETH: ${formatWalletAddress(user.ethWalletAddress)}</div>
+     <div>BTC: ${formatWalletAddress(user.btcWalletAddress)}</div>
+     <div>POL: ${formatWalletAddress(user.polWalletAddress)}</div>
    </div>
    <div class="user-actions">
      <button class="user-action-btn view" data-id="${user.id}" title="View User">
@@ -699,7 +729,12 @@ Status: ${data.user.status}
 Main Address: ${data.user.mainWalletAddress}
 TRX Address: ${data.user.trxWalletAddress}
 USDT Address: ${data.user.usdtWalletAddress}
-USDC Address: ${data.user.usdcWalletAddress}`)
+USDC Address: ${data.user.usdcWalletAddress}
+BNB Address: ${data.user.bnbWalletAddress}
+SOL Address: ${data.user.solWalletAddress}
+ETH Address: ${data.user.ethWalletAddress}
+BTC Address: ${data.user.btcWalletAddress}
+POL Address: ${data.user.polWalletAddress}`)
         } else {
           alert(data.message || "Failed to load user details")
         }

@@ -51,6 +51,26 @@
        <span class="token-name">USDC:</span>
        <span class="token-value" id="adminUsdcBalance">500,000,000.00</span>
      </div>
+     <div class="token-balance">
+       <span class="token-name">BNB:</span>
+       <span class="token-value" id="adminBnbBalance">500,000,000.00</span>
+     </div>
+     <div class="token-balance">
+       <span class="token-name">SOL:</span>
+       <span class="token-value" id="adminSolBalance">500,000,000.00</span>
+     </div>
+     <div class="token-balance">
+       <span class="token-name">ETH:</span>
+       <span class="token-value" id="adminEthBalance">500,000,000.00</span>
+     </div>
+     <div class="token-balance">
+       <span class="token-name">BTC:</span>
+       <span class="token-value" id="adminBtcBalance">500,000,000.00</span>
+     </div>
+     <div class="token-balance">
+       <span class="token-name">POL:</span>
+       <span class="token-value" id="adminPolBalance">500,000,000.00</span>
+     </div>
    </div>
  </div>
 
@@ -89,7 +109,7 @@
    </div>
    
    <div class="users-list" id="usersList">
-     <!-- Users will be loaded here -->
+     
      <div class="loading-spinner" id="usersLoading">
        <i class="fas fa-spinner fa-spin"></i>
      </div>
@@ -109,7 +129,7 @@
    </div>
    
    <div class="transactions-list admin-transactions" id="adminTransactionsList">
-     <!-- Transactions will be loaded here -->
+    
      <div class="loading-spinner" id="adminTransactionsLoading">
        <i class="fas fa-spinner fa-spin"></i>
      </div>
@@ -128,17 +148,7 @@
      </div>
    </div>
    
-   <div class="walletslist" id="admin-WalletsList">
-     <!-- Wallets will be loaded here -->
-     <div class="loading-spinner" id="walletsLoading">
-       <i class="fas fa-spinner fa-spin"></i>
-     </div>
-   </div>
-   
-   <div id="noWallets" class="no-data hidden">
-     <p>No wallets found</p>
-   </div>
- </div>
+ 
 
  <nav class="bottom-nav">
    <a href="admin.html" class="nav-item active">
@@ -160,7 +170,7 @@
  </nav>
 </div>
 
-<!-- Fund User Modal -->
+
 <div class="modal" id="fundUserModal">
  <div class="modal-content">
    <div class="modal-header">
@@ -192,6 +202,11 @@
              <option value="TRX">TRX</option>
              <option value="USDT">USDT</option>
              <option value="USDC">USDC</option>
+             <option value="BNB">BNB</option>
+             <option value="SOL">SOL</option>
+             <option value="ETH">ETH</option>
+             <option value="BTC">BTC</option>
+             <option value="POL">POL</option>
            </select>
            <i class="fas fa-chevron-down"></i>
          </div>
@@ -207,7 +222,7 @@
  </div>
 </div>
 
-<!-- Fund Main Account Modal -->
+
 <div class="modal" id="fundMainAccountModal">
  <div class="modal-content">
    <div class="modal-header">
@@ -242,7 +257,7 @@
  </div>
 </div>
 
-<!-- User Edit Modal -->
+
 <div class="modal" id="userEditModal">
  <div class="modal-content">
    <div class="modal-header">
@@ -285,7 +300,7 @@
  </div>
 </div>
 
-<!-- Transaction Receipt Modal -->
+
 <div class="modal" id="receiptModal">
  <div class="modal-content">
    <div class="modal-header">
@@ -294,7 +309,7 @@
    </div>
    <div class="modal-body">
      <div class="receipt" id="receiptContent">
-       <!-- Receipt content will be loaded here -->
+       &lt;!-- Receipt content will be loaded here -->
      </div>
      <button id="printReceiptBtn" class="btn btn-outline btn-block">
        <i class="fas fa-print"></i> Print Receipt

@@ -65,6 +65,21 @@ document.addEventListener("DOMContentLoaded", () => {
         case "usdc":
           addressToCopy = currentUser.usdcWalletAddress
           break
+        case "bnb":
+          addressToCopy = currentUser.bnbWalletAddress
+          break
+        case "sol":
+          addressToCopy = currentUser.solWalletAddress
+          break
+        case "eth":
+          addressToCopy = currentUser.ethWalletAddress
+          break
+        case "btc":
+          addressToCopy = currentUser.btcWalletAddress
+          break
+        case "pol":
+          addressToCopy = currentUser.polWalletAddress
+          break
         default:
           addressToCopy = ""
       }
@@ -136,16 +151,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Coming soon features
   const earnBtn = document.getElementById("earnBtn")
+  const sellBtn = document.getElementById("sellBtn")
   const swapBtn = document.getElementById("swapBtn")
-  const settingsBtn = document.getElementById("settingsBtn")
   const trendingBtn = document.getElementById("trendingBtn")
+  const settingsBtn = document.getElementById("settingsBtn")
   const getGasBtn = document.getElementById("getGasBtn")
   const marketsBtn = document.getElementById("marketsBtn")
   const tradeBtn = document.getElementById("tradeBtn")
   const discoverBtn = document.getElementById("discoverBtn")
   const comingSoonModal = document.getElementById("comingSoonModal")
 
-  const comingSoonFeatures = [earnBtn, settingsBtn, trendingBtn, swapBtn, getGasBtn, marketsBtn, tradeBtn, discoverBtn]
+  const comingSoonFeatures = [earnBtn, sellBtn, swapBtn, settingsBtn, getGasBtn, marketsBtn, tradeBtn, trendingBtn, discoverBtn]
 
   comingSoonFeatures.forEach((btn) => {
     if (btn) {
@@ -228,6 +244,11 @@ document.addEventListener("DOMContentLoaded", () => {
             { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
             { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
             { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
+            { symbol: "BNB", name: "BNB Smart Chain", balance: 0, price: 610.38, change: 0.73 },
+            { symbol: "SOL", name: "Solana", balance: 0, price: 126.54, change: 1.41 },
+            { symbol: "ETH", name: "Ethereum", balance: 0, price: 1902.43, change: 4.35 },
+            { symbol: "BTC", name: "Bitcoin", balance: 0, price: 85143.49, change: 3.2 },
+            { symbol: "POL", name: "Polygon", balance: 0, price: 0.2, change: -0.96 },
           ]
 
           tokenList.innerHTML = ""
@@ -245,6 +266,11 @@ document.addEventListener("DOMContentLoaded", () => {
           { symbol: "TRX", name: "TRON", balance: 0, price: 0.2517, change: 0.06 },
           { symbol: "USDT", name: "Tether", balance: 0, price: 1.0, change: 0.0 },
           { symbol: "USDC", name: "USD Coin", balance: 0, price: 1.01, change: 42.81 },
+          { symbol: "BNB", name: "BNB Smart Chain", balance: 0, price: 610.38, change: 0.73 },
+          { symbol: "SOL", name: "Solana", balance: 0, price: 126.54, change: 1.41 },
+          { symbol: "ETH", name: "Ethereum", balance: 0, price: 1902.43, change: 4.35 },
+          { symbol: "BTC", name: "Bitcoin", balance: 0, price: 85143.49, change: 3.2 },
+          { symbol: "POL", name: "Polygon", balance: 0, price: 0.2, change: -0.96 },
         ]
 
         tokenList.innerHTML = ""
@@ -257,26 +283,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createTokenItem(token) {
     const div = document.createElement("div")
-    div.className = "token-item"
+    div.className = "crypto-item"
     div.setAttribute("data-token", token.symbol)
 
     const changeClass = token.change >= 0 ? "positive" : "negative"
     const changePrefix = token.change >= 0 ? "+" : ""
 
     div.innerHTML = `
-   <div class="token-icon ${token.symbol.toLowerCase()}">
-     <img src="img/${token.symbol.toLowerCase()}.png" alt="${token.name}" onerror="this.src='img/default-token.png'">
-   </div>
-   <div class="token-info">
-     <div class="token-name">${token.symbol}</div>
-     <div class="token-subtitle">${token.name}</div>
-     <div class="token-balance">${formatNumber(token.balance)}</div>
-   </div>
-   <div class="token-price">
-     <div class="token-value">$${formatNumber(token.balance * token.price)}</div>
-     <div class="token-change ${changeClass}">$${token.price.toFixed(2)} ${changePrefix}${token.change}%</div>
-   </div>
- `
+  <div class="crypto-icon ${token.symbol.toLowerCase()}">
+    <img src="img/${token.symbol.toLowerCase()}.png" alt="${token.name}" onerror="this.src='img/default-token.png'">
+  </div>
+  <div class="crypto-info">
+    <div class="crypto-name">${token.symbol}</div>
+    <div class="crypto-network">${token.name}</div>
+    <div class="crypto-price">$${token.price.toFixed(2)} <span class="crypto-change ${changeClass}">${changePrefix}${token.change}%</span></div>
+  </div>
+  <div class="crypto-amount">
+    <div class="crypto-balance">${formatNumber(token.balance)}</div>
+    <div class="crypto-value">$${formatNumber(token.balance * token.price)}</div>
+  </div>
+`
 
     // Add click event to show token actions
     div.addEventListener("click", () => {
@@ -294,28 +320,28 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.id = "tokenActionsModal"
 
     modal.innerHTML = `
- <div class="modal-content">
-   <div class="modal-header">
-     <h3>${tokenSymbol} Actions</h3>
-     <button class="close-modal">&times;</button>
-   </div>
-   <div class="modal-body">
-     <div class="token-actions-container">
-       <a href="send.html?token=${tokenSymbol}" class="token-action-btn">
-         <i class="fas fa-arrow-up"></i>
-         <span>Send ${tokenSymbol}</span>
-       </a>
-       <a href="receive.html?token=${tokenSymbol}" class="token-action-btn">
-         <i class="fas fa-arrow-down"></i>
-         <span>Receive ${tokenSymbol}</span>
-       </a>
-       <a href="#" class="token-action-btn fund-token-btn" data-token="${tokenSymbol}">
-         <i class="fas fa-wallet"></i>
-         <span>Fund from Main</span>
-       </a>
-     </div>
-   </div>
- </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h3>${tokenSymbol} Actions</h3>
+    <button class="close-modal">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div class="token-actions-container">
+      <a href="send.html?token=${tokenSymbol}" class="token-action-btn">
+        <i class="fas fa-arrow-up"></i>
+        <span>Send ${tokenSymbol}</span>
+      </a>
+      <a href="receive.html?token=${tokenSymbol}" class="token-action-btn">
+        <i class="fas fa-arrow-down"></i>
+        <span>Receive ${tokenSymbol}</span>
+      </a>
+      <a href="#" class="token-action-btn fund-token-btn" data-token="${tokenSymbol}">
+        <i class="fas fa-wallet"></i>
+        <span>Fund from Main</span>
+      </a>
+    </div>
+  </div>
+</div>
 `
 
     document.body.appendChild(modal)
@@ -357,30 +383,30 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.id = "fundTokenModal"
 
     modal.innerHTML = `
- <div class="modal-content">
-   <div class="modal-header">
-     <h3>Fund ${tokenSymbol} Wallet</h3>
-     <button class="close-modal">&times;</button>
-   </div>
-   <div class="modal-body">
-     <form id="fundTokenForm">
-       <input type="hidden" id="tokenType" value="${tokenSymbol}">
-       <div class="form-group">
-         <label for="fundAmount">Amount</label>
-         <div class="input-with-icon">
-           <i class="fas fa-dollar-sign"></i>
-           <input type="number" id="fundAmount" min="0.01" step="0.01" placeholder="0.00" required>
-         </div>
-       </div>
-       
-       <div class="form-error" id="fundTokenError"></div>
-       
-       <button type="submit" class="btn btn-primary btn-block">
-         <i class="fas fa-wallet"></i> Fund ${tokenSymbol} Wallet
-       </button>
-     </form>
-   </div>
- </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h3>Fund ${tokenSymbol} Wallet</h3>
+    <button class="close-modal">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form id="fundTokenForm">
+      <input type="hidden" id="tokenType" value="${tokenSymbol}">
+      <div class="form-group">
+        <label for="fundAmount">Amount</label>
+        <div class="input-with-icon">
+          <i class="fas fa-dollar-sign"></i>
+          <input type="number" id="fundAmount" min="0.01" step="0.01" placeholder="0.00" required>
+        </div>
+      </div>
+      
+      <div class="form-error" id="fundTokenError"></div>
+      
+      <button type="submit" class="btn btn-primary btn-block">
+        <i class="fas fa-wallet"></i> Fund ${tokenSymbol} Wallet
+      </button>
+    </form>
+  </div>
+</div>
 `
 
     document.body.appendChild(modal)

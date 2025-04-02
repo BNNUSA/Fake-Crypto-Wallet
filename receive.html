@@ -6,61 +6,190 @@
 <title>Crypto Wallet - Receive</title>
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  .token-selector {
+    margin: 15px;
+  }
+  .wallet-addresses {
+    margin: 15px;
+    background-color: var(--card-color);
+    border-radius: var(--border-radius);
+    padding: 10px;
+  }
+  .wallet-address-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .wallet-address-item:last-child {
+    border-bottom: none;
+  }
+  .wallet-address-label {
+    min-width: 100px;
+    font-weight: 500;
+  }
+  .wallet-address-value {
+    flex: 1;
+    font-family: monospace;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+  .qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+  .qr-code {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wallet-address-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--card-color);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 400px;
+  }
+  .address-info {
+    text-align: center;
+    margin: 15px;
+    color: var(--text-secondary);
+  }
+  .share-options {
+    margin: 15px;
+  }
+</style>
 </head>
-<body>
+<body class="dark-mode">
 <div class="app-container">
-  <div class="page-header">
-    <a href="dashboard.html" class="back-btn">
-      <i class="fas fa-arrow-left"></i>
-    </a>
-    <h1>Receive <span id="tokenTitle">Token</span></h1>
-  </div>
+ <div class="page-header">
+   <a href="dashboard.html" class="back-btn">
+     <i class="fas fa-arrow-left"></i>
+   </a>
+   <h1>Receive <span id="tokenTitle">Token</span></h1>
+ </div>
 
-      <div class="wallet-addresses">
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">Main Address:</div>
-      <div class="wallet-address-value" id="mainWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="main">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">TRX Address:</div>
-      <div class="wallet-address-value" id="trxWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="trx">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">USDT Address:</div>
-      <div class="wallet-address-value" id="usdtWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="usdt">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-    <div class="wallet-address-item">
-      <div class="wallet-address-label">USDC Address:</div>
-      <div class="wallet-address-value" id="usdcWalletAddress">Loading...</div>
-      <button class="copy-btn" data-address="usdc">
-        <i class="far fa-copy"></i>
-      </button>
-    </div>
-  </div>
+ <div class="token-selector">
+   <div class="select-wrapper">
+     <select id="tokenSelect">
+       <option value="MAIN">Main Wallet</option>
+       <option value="TRX">TRX</option>
+       <option value="USDT">USDT</option>
+       <option value="USDC">USDC</option>
+       <option value="BNB">BNB</option>
+       <option value="SOL">SOL</option>
+       <option value="ETH">ETH</option>
+       <option value="BTC">BTC</option>
+       <option value="POL">POL</option>
+     </select>
+     <i class="fas fa-chevron-down"></i>
+   </div>
+ </div>
 
-    <div class="address-info">
-      <p>Only send <span id="selectedTokenName">Token</span> to this address. Sending any other coins may result in permanent loss.</p>
-    </div>
+ <div class="qr-containerd">
+   <div id="qrCoded" class="qr-coded">
+     <!-- QR code will be generated here -->
+   </div>
+   <div class="wallet-address-display">
+     <span id="displayAddress">Select a token to view address</span>
+     <button id="copyAddressBtn" class="copy-btn">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+ </div>
 
-    <div class="share-options">
-      <button id="shareAddressBtn" class="btn btn-outline btn-block">
-        <i class="fas fa-share-alt"></i> Share Address
-      </button>
-    </div>
-  </div>
+ <div class="address-info">
+   <p>Only send <span id="selectedTokenName">the selected token</span> to this address. Sending any other coins may result in permanent loss.</p>
+ </div>
+
+ <div class="wallet-addresses">
+   <div class="wallet-address-item" id="mainWalletAddressContainer">
+     <div class="wallet-address-label">Main Address:</div>
+     <div class="wallet-address-value" id="mainWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="main">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="trxWalletAddressContainer">
+     <div class="wallet-address-label">TRX Address:</div>
+     <div class="wallet-address-value" id="trxWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="trx">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="usdtWalletAddressContainer">
+     <div class="wallet-address-label">USDT Address:</div>
+     <div class="wallet-address-value" id="usdtWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="usdt">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="usdcWalletAddressContainer">
+     <div class="wallet-address-label">USDC Address:</div>
+     <div class="wallet-address-value" id="usdcWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="usdc">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="bnbWalletAddressContainer">
+     <div class="wallet-address-label">BNB Address:</div>
+     <div class="wallet-address-value" id="bnbWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="bnb">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="solWalletAddressContainer">
+     <div class="wallet-address-label">SOL Address:</div>
+     <div class="wallet-address-value" id="solWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="sol">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="ethWalletAddressContainer">
+     <div class="wallet-address-label">ETH Address:</div>
+     <div class="wallet-address-value" id="ethWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="eth">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="btcWalletAddressContainer">
+     <div class="wallet-address-label">BTC Address:</div>
+     <div class="wallet-address-value" id="btcWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="btc">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+   <div class="wallet-address-item" id="polWalletAddressContainer">
+     <div class="wallet-address-label">POL Address:</div>
+     <div class="wallet-address-value" id="polWalletAddress">Loading...</div>
+     <button class="copy-btn" data-address="pol">
+       <i class="far fa-copy"></i>
+     </button>
+   </div>
+ </div>
+
+ <div class="share-options">
+   <button id="shareAddressBtn" class="btn btn-primary btn-block">
+     <i class="fas fa-share-alt"></i> Share Address
+   </button>
+ </div>
 </div>
 
-<script src="js/receive.js"></script>
-<script src="js/dashboard.js"></script>
+<script src="js/receive.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 </body>
 </html>
