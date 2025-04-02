@@ -1195,43 +1195,28 @@ input:checked + .slider:before {
   font-family: monospace;
 }
 
-.modal-body {
-  padding: 1rem; /* Reduced padding */
-}
-
+/* Token Actions */
 .token-actions-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Reduced minimum size */
-  gap: 0.75rem; /* Smaller gap */
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
 }
 
 .token-action-btn {
-  padding: 1rem 0.5rem; /* More compact padding */
-  min-height: 100px; /* Reduced height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  width: 45%;
+  text-align: center;
 }
 
 .token-action-btn i {
-  font-size: 1.5rem; /* Smaller icon */
-  margin-bottom: 0.5rem; /* Reduced spacing */
-  width: 32px; /* Smaller icon container */
-  height: 32px;
-}
-
-.token-action-btn span {
-  font-size: 0.875rem; /* Smaller text */
-  line-height: 1.3; /* Tighter line height */
-}
-
-/* Mobile responsiveness */
-@media (max-width: 480px) {
-  .token-actions-container {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Smaller columns for mobile */
-  }
-  
-  .token-action-btn {
-    min-height: 90px; /* Even more compact on mobile */
-    padding: 0.75rem;
-  }
+  font-size: 24px;
+  color: var(--primary-color);
 }
 
 .token-item {
@@ -1355,9 +1340,7 @@ input:checked + .slider:before {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 15px;
   overflow: hidden;
-  background-color: white;
 }
 
 .promo-content {
@@ -1564,5 +1547,151 @@ input:checked + .slider:before {
 
 .user-action-btn:hover {
   transform: scale(1.05);
+}
+
+/* Add these styles for the new tokens */
+.crypto-icon.bnb img,
+.crypto-icon.sol img,
+.crypto-icon.eth img,
+.crypto-icon.trx img,
+.crypto-icon.usdc img,
+.crypto-icon.usdt img,
+.crypto-icon.btc img,
+.crypto-icon.pol img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Default background colors for token icons */
+.crypto-icon.bnb {
+  background-color: #f3ba2f;
+}
+
+.crypto-icon.sol {
+  background-color: #9945ff;
+}
+
+.crypto-icon.eth {
+  background-color: #627eea;
+}
+
+.crypto-icon.btc {
+  background-color: #f7931a;
+}
+
+.crypto-icon.pol {
+  background-color: #8247e5;
+}
+
+/* Token specific styles for the dashboard */
+.crypto-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.crypto-item:hover {
+  transform: translateY(-2px);
+}
+
+.crypto-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crypto-info {
+  flex: 1;
+}
+
+.crypto-name {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.crypto-network {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.crypto-price {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.crypto-change {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.crypto-change.positive {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.crypto-change.negative {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+.crypto-amount {
+  text-align: right;
+}
+
+.crypto-balance {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.crypto-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Token actions modal */
+.token-actions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.token-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  width: 45%;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.token-action-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.token-action-btn i {
+  font-size: 24px;
 }
 
