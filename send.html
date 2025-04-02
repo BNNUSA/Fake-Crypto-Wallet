@@ -7,119 +7,124 @@
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="dark-mode">
 <div class="app-container">
-  <div class="page-header">
-    <a href="dashboard.html" class="back-btn">
-      <i class="fas fa-arrow-left"></i>
-    </a>
-    <h1>Send <span id="tokenTitle">Funds</span></h1>
-  </div>
+ <div class="page-header">
+   <a href="dashboard.html" class="back-btn">
+     <i class="fas fa-arrow-left"></i>
+   </a>
+   <h1>Send <span id="tokenTitle">Funds</span></h1>
+ </div>
 
-  <div class="send-options">
-    <div class="send-option" data-form="mainWalletForm">
-      <i class="fas fa-wallet"></i>
-      <span>Main Wallet</span>
-    </div>
-    <div class="send-option" data-form="tokenForm">
-      <i class="fas fa-coins"></i>
-      <span>Token</span>
-    </div>
-  </div>
+ <div class="send-options">
+   <div class="send-option" data-form="mainWalletForm">
+     <i class="fas fa-wallet"></i>
+     <span>Main Wallet</span>
+   </div>
+   <div class="send-option" data-form="tokenForm">
+     <i class="fas fa-coins"></i>
+     <span>Token</span>
+   </div>
+ </div>
 
-  <div class="send-form-container">
-    <!-- Main Wallet Form -->
-    <form id="mainWalletForm" class="send-form active">
-      <div class="form-group">
-        <label for="mainRecipientAddress">Recipient Main Wallet Address</label>
-        <div class="input-with-icon">
-          <i class="fas fa-wallet"></i>
-          <input type="text" id="mainRecipientAddress" placeholder="Enter main wallet address" required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="mainAmount">Amount</label>
-        <div class="input-with-icon">
-          <i class="fas fa-dollar-sign"></i>
-          <input type="number" id="mainAmount" min="0.01" step="0.01" placeholder="0.00" required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="mainNote">Note (Optional)</label>
-        <div class="input-with-icon">
-          <i class="fas fa-sticky-note"></i>
-          <input type="text" id="mainNote" placeholder="Add a note">
-        </div>
-      </div>
-      
-      <div class="form-error" id="mainSendError"></div>
-      
-      <button type="submit" class="btn btn-primary btn-block">Send from Main Wallet</button>
-    </form>
+ <div class="send-form-container">
+  
+   <form id="mainWalletForm" class="send-form active">
+     <div class="form-group">
+       <label for="mainRecipientAddress">Recipient Main Wallet Address</label>
+       <div class="input-with-icon">
+         <i class="fas fa-wallet"></i>
+         <input type="text" id="mainRecipientAddress" placeholder="Enter main wallet address" required>
+       </div>
+     </div>
+     
+     <div class="form-group">
+       <label for="mainAmount">Amount</label>
+       <div class="input-with-icon">
+         <i class="fas fa-dollar-sign"></i>
+         <input type="number" id="mainAmount" min="0.01" step="0.01" placeholder="0.00" required>
+       </div>
+     </div>
+     
+     <div class="form-group">
+       <label for="mainNote">Note (Optional)</label>
+       <div class="input-with-icon">
+         <i class="fas fa-sticky-note"></i>
+         <input type="text" id="mainNote" placeholder="Add a note">
+       </div>
+     </div>
+     
+     <div class="form-error" id="mainSendError"></div>
+     
+     <button type="submit" class="btn btn-primary btn-block">Send from Main Wallet</button>
+   </form>
 
-    <!-- Token Form -->
-    <form id="tokenForm" class="send-form">
-      <div class="form-group">
-        <label for="tokenType">Token</label>
-        <div class="select-wrapper">
-          <select id="tokenType" required>
-            <option value="TRX">TRX</option>
-            <option value="USDT">USDT</option>
-            <option value="USDC">USDC</option>
-          </select>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-      </div>
 
-      <div class="form-group">
-        <label for="recipientAddress">Recipient Token Address</label>
-        <div class="input-with-icon">
-          <i class="fas fa-wallet"></i>
-          <input type="text" id="recipientAddress" placeholder="Enter token wallet address" required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="tokenAmount">Amount</label>
-        <div class="input-with-icon">
-          <i class="fas fa-coins"></i>
-          <input type="number" id="tokenAmount" min="0.01" step="0.01" placeholder="0.00" required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="tokenNote">Note (Optional)</label>
-        <div class="input-with-icon">
-          <i class="fas fa-sticky-note"></i>
-          <input type="text" id="tokenNote" placeholder="Add a note">
-        </div>
-      </div>
-      
-      <div class="form-error" id="sendTokenError"></div>
-      
-      <button type="submit" class="btn btn-primary btn-block">Send Token</button>
-    </form>
-  </div>
+   <form id="tokenForm" class="send-form">
+     <div class="form-group">
+       <label for="tokenType">Token</label>
+       <div class="select-wrapper">
+         <select id="tokenType" required>
+           <option value="TRX">TRX</option>
+           <option value="USDT">USDT</option>
+           <option value="USDC">USDC</option>
+           <option value="BNB">BNB</option>
+           <option value="SOL">SOL</option>
+           <option value="ETH">ETH</option>
+           <option value="BTC">BTC</option>
+           <option value="POL">POL</option>
+         </select>
+         <i class="fas fa-chevron-down"></i>
+       </div>
+     </div>
+
+     <div class="form-group">
+       <label for="recipientAddress">Recipient Token Address</label>
+       <div class="input-with-icon">
+         <i class="fas fa-wallet"></i>
+         <input type="text" id="recipientAddress" placeholder="Enter token wallet address" required>
+       </div>
+     </div>
+     
+     <div class="form-group">
+       <label for="tokenAmount">Amount</label>
+       <div class="input-with-icon">
+         <i class="fas fa-coins"></i>
+         <input type="number" id="tokenAmount" min="0.01" step="0.01" placeholder="0.00" required>
+       </div>
+     </div>
+     
+     <div class="form-group">
+       <label for="tokenNote">Note (Optional)</label>
+       <div class="input-with-icon">
+         <i class="fas fa-sticky-note"></i>
+         <input type="text" id="tokenNote" placeholder="Add a note">
+       </div>
+     </div>
+     
+     <div class="form-error" id="sendTokenError"></div>
+     
+     <button type="submit" class="btn btn-primary btn-block">Send Token</button>
+   </form>
+ </div>
 </div>
 
-<!-- Transaction Receipt Modal -->
+&lt;!-- Transaction Receipt Modal -->
 <div class="modal" id="receiptModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Transaction Receipt</h3>
-      <button class="close-modal">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="receipt" id="receiptContent">
-        <!-- Receipt content will be loaded here -->
-      </div>
-      <button id="printReceiptBtn" class="btn btn-outline btn-block">
-        <i class="fas fa-print"></i> Print Receipt
-      </button>
-    </div>
-  </div>
+ <div class="modal-content">
+   <div class="modal-header">
+     <h3>Transaction Receipt</h3>
+     <button class="close-modal">&times;</button>
+   </div>
+   <div class="modal-body">
+     <div class="receipt" id="receiptContent">
+       &lt;!-- Receipt content will be loaded here -->
+     </div>
+     <button id="printReceiptBtn" class="btn btn-outline btn-block">
+       <i class="fas fa-print"></i> Print Receipt
+     </button>
+   </div>
+ </div>
 </div>
 
 <script src="js/send.js"></script>

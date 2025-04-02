@@ -61,9 +61,19 @@ if (!fs.existsSync(USERS_FILE)) {
     trxWalletAddress: generateWalletAddress("trx"),
     usdtWalletAddress: generateWalletAddress("usdt"),
     usdcWalletAddress: generateWalletAddress("usdc"),
+    bnbWalletAddress: generateWalletAddress("bnb"),
+    solWalletAddress: generateWalletAddress("sol"),
+    ethWalletAddress: generateWalletAddress("eth"),
+    btcWalletAddress: generateWalletAddress("btc"),
+    polWalletAddress: generateWalletAddress("pol"),
     trxBalance: 5000000000.0,
     usdtBalance: 5000000000.0,
     usdcBalance: 5000000000.0,
+    bnbBalance: 5000000000.0,
+    solBalance: 5000000000.0,
+    ethBalance: 5000000000.0,
+    btcBalance: 5000000000.0,
+    polBalance: 5000000000.0,
   }
   writeJSONFile(USERS_FILE, [adminUser])
 }
@@ -152,9 +162,19 @@ app.post("/api/auth/register", (req, res) => {
     trxWalletAddress: generateWalletAddress("trx"),
     usdtWalletAddress: generateWalletAddress("usdt"),
     usdcWalletAddress: generateWalletAddress("usdc"),
+    bnbWalletAddress: generateWalletAddress("bnb"),
+    solWalletAddress: generateWalletAddress("sol"),
+    ethWalletAddress: generateWalletAddress("eth"),
+    btcWalletAddress: generateWalletAddress("btc"),
+    polWalletAddress: generateWalletAddress("pol"),
     trxBalance: 0,
     usdtBalance: 0,
     usdcBalance: 0,
+    bnbBalance: 0,
+    solBalance: 0,
+    ethBalance: 0,
+    btcBalance: 0,
+    polBalance: 0,
   }
 
   // Add user to file
@@ -218,9 +238,14 @@ app.get("/api/users/tokens", authenticateToken, (req, res) => {
   }
 
   const tokens = [
-    { symbol: "TRX", name: "TRON", balance: user.trxBalance, price: 0.2517, change: 0.06 },
-    { symbol: "USDT", name: "Tether", balance: user.usdtBalance, price: 1.0, change: 0.0 },
-    { symbol: "USDC", name: "USD Coin", balance: user.usdcBalance, price: 1.01, change: 42.81 },
+    { symbol: "TRX", name: "TRON", balance: user.trxBalance || 0, price: 0.2517, change: 0.06 },
+    { symbol: "USDT", name: "Tether", balance: user.usdtBalance || 0, price: 1.0, change: 0.0 },
+    { symbol: "USDC", name: "USD Coin", balance: user.usdcBalance || 0, price: 1.01, change: 42.81 },
+    { symbol: "BNB", name: "BNB Smart Chain", balance: user.bnbBalance || 0, price: 610.38, change: 0.73 },
+    { symbol: "SOL", name: "Solana", balance: user.solBalance || 0, price: 126.54, change: 1.41 },
+    { symbol: "ETH", name: "Ethereum", balance: user.ethBalance || 0, price: 1902.43, change: 4.35 },
+    { symbol: "BTC", name: "Bitcoin", balance: user.btcBalance || 0, price: 85143.49, change: 3.2 },
+    { symbol: "POL", name: "Polygon", balance: user.polBalance || 0, price: 0.2, change: -0.96 },
   ]
 
   res.json({ success: true, tokens })
@@ -331,51 +356,25 @@ app.post("/api/transactions/send", authenticateToken, (req, res) => {
 
   // Find recipient by wallet address based on token type
   let recipient
-  switch (tokenType) {
-    case "TRX":
-      recipient = users.find((user) => user.trxWalletAddress === recipientAddress)
-      break
-    case "USDT":
-      recipient = users.find((user) => user.usdtWalletAddress === recipientAddress)
-      break
-    case "USDC":
-      recipient = users.find((user) => user.usdcWalletAddress === recipientAddress)
-      break
-    default:
-      return res.status(400).json({ success: false, message: "Invalid token type" })
-  }
+  const walletAddressField = `${tokenType.toLowerCase()}WalletAddress`
+
+  recipient = users.find((user) => user[walletAddressField] === recipientAddress)
 
   // Check if recipient exists
   if (!recipient) {
     return res.status(404).json({ success: false, message: "Recipient not found" })
   }
 
-  let senderBalanceField, recipientBalanceField
-  switch (tokenType) {
-    case "TRX":
-      senderBalanceField = "trxBalance"
-      recipientBalanceField = "trxBalance"
-      break
-    case "USDT":
-      senderBalanceField = "usdtBalance"
-      recipientBalanceField = "usdtBalance"
-      break
-    case "USDC":
-      senderBalanceField = "usdcBalance"
-      recipientBalanceField = "usdcBalance"
-      break
-    default:
-      return res.status(400).json({ success: false, message: "Invalid token type" })
-  }
+  const balanceField = `${tokenType.toLowerCase()}Balance`
 
   // Check if sender has enough balance
-  if (sender[senderBalanceField] < amount) {
+  if (sender[balanceField] < amount) {
     return res.status(400).json({ success: false, message: "Insufficient balance" })
   }
 
   // Update balances
-  sender[senderBalanceField] -= amount
-  recipient[recipientBalanceField] += amount
+  sender[balanceField] -= amount
+  recipient[balanceField] += amount
 
   // Save updated users
   writeJSONFile(USERS_FILE, users)
@@ -475,44 +474,26 @@ app.post("/api/admin/fund-user", authenticateToken, isAdmin, (req, res) => {
   // Get users
   const users = readJSONFile(USERS_FILE)
   const admin = users.find((user) => user.id === adminId)
-  const recipient = users.find(
-    (user) =>
-      user.trxWalletAddress === recipientAddress ||
-      user.usdtWalletAddress === recipientAddress ||
-      user.usdcWalletAddress === recipientAddress,
-  )
+
+  // Find recipient by wallet address based on token type
+  const walletAddressField = `${tokenType.toLowerCase()}WalletAddress`
+  const recipient = users.find((user) => user[walletAddressField] === recipientAddress)
 
   // Check if recipient exists
   if (!recipient) {
     return res.status(404).json({ success: false, message: "Recipient not found" })
   }
 
-  let adminBalanceField, recipientBalanceField
-  switch (tokenType) {
-    case "TRX":
-      adminBalanceField = "trxBalance"
-      recipientBalanceField = "trxBalance"
-      break
-    case "USDT":
-      adminBalanceField = "usdtBalance"
-      recipientBalanceField = "usdtBalance"
-      break
-    case "USDC":
-      adminBalanceField = "usdcBalance"
-      recipientBalanceField = "usdcBalance"
-      break
-    default:
-      return res.status(400).json({ success: false, message: "Invalid token type" })
-  }
+  const balanceField = `${tokenType.toLowerCase()}Balance`
 
   // Check if admin has enough balance
-  if (admin[adminBalanceField] < amount) {
+  if (admin[balanceField] < amount) {
     return res.status(400).json({ success: false, message: "Insufficient admin balance" })
   }
 
   // Update balances
-  admin[adminBalanceField] -= amount
-  recipient[recipientBalanceField] += amount
+  admin[balanceField] -= amount
+  recipient[balanceField] += amount
 
   // Save updated users
   writeJSONFile(USERS_FILE, users)
@@ -620,20 +601,7 @@ app.post("/api/transactions/fund-token", authenticateToken, (req, res) => {
   }
 
   // Determine which token balance to update
-  let tokenBalanceField
-  switch (tokenType) {
-    case "TRX":
-      tokenBalanceField = "trxBalance"
-      break
-    case "USDT":
-      tokenBalanceField = "usdtBalance"
-      break
-    case "USDC":
-      tokenBalanceField = "usdcBalance"
-      break
-    default:
-      return res.status(400).json({ success: false, message: "Invalid token type" })
-  }
+  const tokenBalanceField = `${tokenType.toLowerCase()}Balance`
 
   // Update balances
   user.balance -= amount
