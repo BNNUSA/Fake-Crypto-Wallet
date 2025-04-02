@@ -4,7 +4,7 @@
     "name": "Admin User",
     "email": "admin@example.com",
     "password": "$2a$10$v5essBftZMiRo1X/LkrThOOJeYHK85bGivIWJUSZwdRq8jur0kj5e",
-    "balance": 5000000000,
+    "balance": 50000000000000000000000000000000000000000000000000000000000000,
     "isAdmin": true,
     "status": "active",
     "createdAt": "2025-03-29T10:00:00.000Z",
