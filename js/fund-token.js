@@ -15,6 +15,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("dark-mode")
   }
 
+  // Get token from URL parameters
+  const urlParams = new URLSearchParams(window.location.search)
+  const tokenParam = urlParams.get("token")
+
+  // Set token in dropdown if provided in URL
+  if (tokenParam) {
+    const tokenTypeSelect = document.getElementById("tokenType")
+    if (tokenTypeSelect && tokenTypeSelect.querySelector(`option[value="${tokenParam}"]`)) {
+      tokenTypeSelect.value = tokenParam
+    }
+  }
+
   // Fund token form handling
   const fundTokenForm = document.getElementById("fundTokenForm")
   if (fundTokenForm) {
